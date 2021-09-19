@@ -5,10 +5,18 @@ import {
   StyleSheet,
 } from 'react-native';
 
-const PlanBox:FC =() => { 
+interface Props{
+  title:string
+}
+
+const PlanBox:FC<Props> =({title}) => { 
   return (  
     <View style={styles.listBox}>
-      <Text style={styles.text}>We are here</Text>
+      <Text style={[styles.text, styles.textPad]}>{title}</Text>
+      <View>
+        <Text>Edit</Text>
+        <Text>Delete</Text>
+      </View>      
     </View>      
   );
 };
@@ -19,7 +27,12 @@ const styles = StyleSheet.create({
     color:'#20232a',
     fontSize:18
   },
+  textPad:{
+    marginTop:7
+  },
   listBox:{
+    flexDirection:'row',
+    justifyContent:'space-between',
     backgroundColor: 'white',
     paddingVertical: 20,
     paddingHorizontal: 22,

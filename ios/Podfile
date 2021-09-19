@@ -12,6 +12,8 @@ target 'allioFintech' do
     :hermes_enabled => false
   )
 
+  pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker'
+
   target 'allioFintechTests' do
     inherit! :complete
     # Pods for testing
