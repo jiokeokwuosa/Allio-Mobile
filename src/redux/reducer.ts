@@ -4,13 +4,13 @@ const initialState: ArticleState = {
     articles: [
         {
             title: 'Make Breakfast',
-            startDate: '2021-09-19T08:43:24.198Z',
-            endDate: '2021-09-19T08:43:24.198Z',
+            startTime: '2021-09-19T08:43:24.198Z',
+            endTime: '2021-09-19T08:43:24.198Z',
         },
         {
             title: 'Dress the Bed',
-            startDate: '2021-09-19T08:43:24.198Z',
-            endDate: '2021-09-19T08:43:24.198Z',
+            startTime: '2021-09-19T08:43:24.198Z',
+            endTime: '2021-09-19T08:43:24.198Z',
         },
     ],
 }
@@ -19,25 +19,37 @@ const reducer = (
     state: ArticleState = initialState,
     action: ArticleAction
 ): ArticleState => {
-    switch (action.type) {
+    switch (action.type) {      
         case actionTypes.ADD_ARTICLE:
             const newArticle: IArticle = {
                 title: action.article.title, // not really unique
-                startDate: action.article.startDate,
-                endDate: action.article.endDate,
+                startTime: action.article.startTime,
+                endTime: action.article.endTime,
             }
+            let newArticles = state.articles;
+            newArticles.unshift(newArticle)
+            state.articles = [...newArticles]
             return {
-                ...state,
-                articles: state.articles.concat(newArticle),
+                ...state
             }
         case actionTypes.REMOVE_ARTICLE:
             const updatedArticles: IArticle[] = state.articles.filter(
-                article => article.title !== action.article.title
+                (article, index) => index !== action.articleIndex
             )
+            state.articles = [...updatedArticles]
+            return {
+                ...state
+            }
+        case actionTypes.UPDATE_ARTICLE:
+            let allArticles = state.articles;
+            allArticles[action.articleIndex || 0] = action.article;
+            state.articles = [...allArticles]
             return {
                 ...state,
-                articles: updatedArticles,
+
             }
+        default:
+            return state;
     }
     return state
 }

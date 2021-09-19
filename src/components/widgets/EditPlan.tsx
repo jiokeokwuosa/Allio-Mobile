@@ -1,4 +1,4 @@
-import React, {FC,useState} from 'react';
+import React, {FC,useState, useEffect} from 'react';
 import { 
   Modal,
   StyleSheet,
@@ -10,20 +10,29 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { connect } from "react-redux";
 import moment from "moment";
-import {addArticle} from './../../redux/actionCreators';
+import {updateArticle} from '../../redux/actionCreators';
 
 interface Props{
     show:boolean,
     setShow:(modalVisible: boolean)=>void,
-    addArticle: (article: IArticle) => void    
+    title:string,
+    startTime:string,
+    endTime:string,
+    index:number
+    updateArticle: (article: IArticle, articleIndex:number) => void    
 }
 
-const AddPlan:FC<Props> =({show,setShow, addArticle}) => { 
+const EditPlan:FC<Props> =({show,setShow, updateArticle, title, startTime, endTime, index}) => { 
+    useEffect(() => {
+      setNewTitle(title)
+      setNewStartTime(startTime)
+      setNewEndTime(endTime)      
+    }, []);
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [date, setDate] = useState(new Date());
-    const [title, setTitle] = useState('');
-    const [startTime, setStartTime] = useState('');
-    const [endTime, setEndTime] = useState('');
+    const [newTitle, setNewTitle] = useState('');
+    const [newStartTime, setNewStartTime] = useState('');
+    const [newEndTime, setNewEndTime] = useState('');
     const [timeArea, setTimeArea] = useState('startTime');
    
     const onChange = (event: any, selectedDate: any) => {
@@ -32,9 +41,9 @@ const AddPlan:FC<Props> =({show,setShow, addArticle}) => {
         setDatePickerVisibility(false)
         setShow(true)
         if(timeArea === 'startTime'){
-          setStartTime(currentDate)
+          setNewStartTime(currentDate)
         }else{
-          setEndTime(currentDate)
+          setNewEndTime(currentDate)
         }
     };
 
@@ -44,17 +53,14 @@ const AddPlan:FC<Props> =({show,setShow, addArticle}) => {
         setDatePickerVisibility(true)
     }
 
-    const handleAddTask = () =>{
+    const handleUpdateTask = () =>{
         const data = {
-          title,
-          startTime,
-          endTime
+          title:newTitle,
+          startTime:newStartTime,
+          endTime:newEndTime
         }
-        if(title && startTime && endTime){
-          addArticle(data)
-          setTitle('')
-          setStartTime('')
-          setEndTime('')
+        if(newStartTime && newTitle && newEndTime){
+          updateArticle(data,index)         
           setShow(false)
         }        
     }
@@ -79,20 +85,20 @@ const AddPlan:FC<Props> =({show,setShow, addArticle}) => {
         >
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                    <Text style={[styles.text,styles.heading]}>Add New Task</Text>
+                    <Text style={[styles.text,styles.heading]}>Edit Task</Text>
                     <TextInput
                         style={[styles.text,styles.textInput]} 
                         placeholder='Type here...'
-                        onChangeText={text => setTitle(text)}
-                        defaultValue={title}
+                        onChangeText={text => setNewTitle(text)}
+                        defaultValue={newTitle}
                     /> 
                     <View style={styles.timeBox}>
-                      <Text style={[styles.text,styles.timeBoxText]} onPress={handleDateInputClick.bind(null,'startTime')}>{startTime? moment(startTime).format('h:mm:ss a') :'Set Start Time' }</Text>  
-                      <Text style={[styles.text,styles.timeBoxText]} onPress={handleDateInputClick.bind(null,'endTime')}>{endTime?  moment(endTime).format('h:mm:ss a'): 'Set End Time'}</Text>  
+                      <Text style={[styles.text,styles.timeBoxText]} onPress={handleDateInputClick.bind(null,'startTime')}>{newStartTime? moment(newStartTime).format('h:mm:ss a') :'Set Start Time' }</Text>  
+                      <Text style={[styles.text,styles.timeBoxText]} onPress={handleDateInputClick.bind(null,'endTime')}>{newEndTime?  moment(newEndTime).format('h:mm:ss a'): 'Set End Time'}</Text>  
                     </View>
                     <TouchableOpacity 
                         activeOpacity={0.8}
-                        onPress={handleAddTask}
+                        onPress={handleUpdateTask}
                     >                     
                     <View style={styles.submitButton}>
                         <Text style={[styles.text, styles.buttonText]}>ADD</Text>
@@ -169,4 +175,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default connect(null, {addArticle})(AddPlan);
+export default connect(null, {updateArticle})(EditPlan);

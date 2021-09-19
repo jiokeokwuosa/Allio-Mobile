@@ -1,7 +1,7 @@
 interface IArticle {
     title: string
-    startDate: string
-    endDate: string
+    startTime: string
+    endTime: string
 }
 
 type ArticleState = {
@@ -10,7 +10,9 @@ type ArticleState = {
 
 type ArticleAction = {
     type: string
-    article: IArticle
+    article: IArticle,
+    articleIndex?:number
 }
+
 
 type DispatchType = (args: ArticleAction) => ArticleAction
