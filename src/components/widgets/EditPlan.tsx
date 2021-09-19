@@ -62,6 +62,9 @@ const EditPlan:FC<Props> =({show,setShow, updateArticle, title, startTime, endTi
         if(newStartTime && newTitle && newEndTime){
           updateArticle(data,index)         
           setShow(false)
+          setNewTitle('')
+          setNewStartTime(''),
+          setNewEndTime('')
         }        
     }
     

@@ -1,5 +1,5 @@
 # Allio Fintech Software Engineer Assesment
-At Allio Fintech, we believe in giving the 99% access to the investment strategies of the 1%. We are a fully automated investment application,
+At Allio Fintech, we believe in giving the 99% access to the investment strategies of the 1%. We are a fully automated investment application, designed to meet the market conditions of the 21st Century...
 
 ## Required Features
 
@@ -23,8 +23,7 @@ At Allio Fintech, we believe in giving the 99% access to the investment strategi
 To install and run this project you would need to have installed:
 - Node Js
 - Git
-- Clone the backend and run with the commands below
-
+- Software requirements for both ios and Android platform --> you can visit https://reactnative.dev/docs/environment-setup for more help
 To run Android:
 ```
 $ git clone https://github.com/jiokeokwuosa/Allio-Mobile.git or use the local copy

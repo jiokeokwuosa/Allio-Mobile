@@ -4,26 +4,30 @@ import {
   StyleSheet,
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions
 } from 'react-native';
 import { connect } from "react-redux";
 import moment from "moment";
 import { VictoryBar } from "victory-native";
+import { PieChart} from 'react-native-chart-kit'
 
 
 
 interface Props{
     show:boolean,
     setShow:(modalVisible: boolean)=>void,
-    articles?:IArticle[]
+    articles?:IArticle[],
+    chatInfo:Array<object>
 }
 
-const ChartBox:FC<Props> =({show,setShow, articles},chatData:any) => {  
-    // const [chatData, setChatData] = useState<any>([]);
+const ChartBox:FC<Props> =({show,setShow, articles,chatInfo},chatData:any) => {  
+    const [chatData1, setChatData1] = useState<any>([]);
     useEffect(() => {
       prepareChartData()
-    }, []);
-    
+     
+    },[]);
+    console.log(chatInfo)
     
     const prepareChartData = () =>{     
         chatData = articles?.map((article)=>{
@@ -31,12 +35,12 @@ const ChartBox:FC<Props> =({show,setShow, articles},chatData:any) => {
         let end = moment(article.endTime);
         let diff = end.diff(start, 'seconds') /3600      
         return {
-            x:article.title,
-            y:diff
+            name:article.title,
+            population:diff
         }
       })    
-     
-      console.log(chatData)
+      setChatData1(chatData)
+  
     }
 
     const exitChart = () =>{
@@ -52,22 +56,34 @@ const ChartBox:FC<Props> =({show,setShow, articles},chatData:any) => {
                 <View style={styles.modalView}>
                     <Text>Time Chat in Minutes</Text>
                     <View>
-                    <VictoryBar
-                      data={chatData}
-                      width={250}
-                      height={250}                     
-                      style={{
-                      labels: {
-                      fill: 'white', fontSize: 15, padding: 7,
-                      }, }}
-                    /> 
+                      {chatInfo && chatInfo.length>0?
+                      <PieChart
+                      data={chatInfo}
+                      width={Dimensions.get('window').width-10}
+                      height={220}
+                      chartConfig={{
+                        backgroundColor: '#e26a00',
+                        backgroundGradientFrom: '#fb8c00',
+                        backgroundGradientTo: '#ffa726',
+                        decimalPlaces: 2, // optional, defaults to 2dp
+                        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                        style: {
+                          borderRadius: 16
+                        }
+                      }}
+                      accessor="population"
+                      backgroundColor="transparent"
+                      paddingLeft="15"
+                      absolute
+                    />
+                      :null}                   
                     </View>
                     <TouchableOpacity 
                         activeOpacity={0.8}
                         onPress={exitChart}
                     >                     
                     <View style={styles.submitButton}>
-                        <Text style={[styles.text, styles.buttonText]}>Yes</Text>
+                        <Text style={[styles.text, styles.buttonText]}>Close Chat</Text>
                     </View>
                     </TouchableOpacity>   
                 </View>
@@ -95,7 +111,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    width:'80%'
+    width:'100%'
   },
   heading:{
       fontSize:20

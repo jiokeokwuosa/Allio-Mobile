@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import AddPlan from '../../widgets/AddPlan';
 import ChartBox from '../../widgets/ChartBox';
 import Box from '../../widgets/PlanBox';
+import moment from "moment";
 
 interface Props{
   articles?:IArticle[]
@@ -17,6 +18,7 @@ interface Props{
 const Planner:FC<Props> =({articles}) => {  
   const [modalVisible, setModalVisible] = useState(false);
   const [chartVisible, setChartVisible] = useState(false);
+  const [chatData1, setChatData1] = useState<any>([]);
 
   const planList = () => {
     if (articles && articles.length>0) {     
@@ -29,6 +31,28 @@ const Planner:FC<Props> =({articles}) => {
       return <Text style={styles.center}>No exisiting plan for today</Text>;
     }
   };
+  useEffect(() => {
+    prepareChartData()
+  },[articles]);
+  
+  const prepareChartData = () => {
+    let colors = ['red', 'blue','orange','pink']    
+    let chatData = articles?.map((article) => {
+      let interval = Math.floor(Math.random() * 3)
+      let start = moment(article.startTime);
+      let end = moment(article.endTime);
+      let diff = end.diff(start, 'seconds') / 3600
+      return {
+        name: article.title,
+        population: diff,
+        color: colors[interval],
+        legendFontColor: colors[interval],
+        legendFontSize: 15,
+      }
+    })
+    setChatData1((olddata:any, newone:any)=>chatData)
+    console.log(chatData)
+  }
   return (
     <>
     <View style={styles.container}>
@@ -43,7 +67,7 @@ const Planner:FC<Props> =({articles}) => {
       </ScrollView>
     </View>
     <AddPlan show={modalVisible} setShow={setModalVisible}/>
-    <ChartBox show={chartVisible} setShow={setChartVisible}/>
+    <ChartBox show={chartVisible} setShow={setChartVisible} chatInfo={chatData1}/>
     </>
   );
 };
