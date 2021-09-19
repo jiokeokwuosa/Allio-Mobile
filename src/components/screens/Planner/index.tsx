@@ -7,14 +7,16 @@ import {
 } from 'react-native';
 import { connect } from "react-redux";
 import AddPlan from '../../widgets/AddPlan';
+import ChartBox from '../../widgets/ChartBox';
 import Box from '../../widgets/PlanBox';
 
 interface Props{
-  articles:IArticle[]
+  articles?:IArticle[]
 }
 
 const Planner:FC<Props> =({articles}) => {  
   const [modalVisible, setModalVisible] = useState(false);
+  const [chartVisible, setChartVisible] = useState(false);
 
   const planList = () => {
     if (articles && articles.length>0) {     
@@ -33,7 +35,7 @@ const Planner:FC<Props> =({articles}) => {
       <View style={styles.headingBox}><Text style={[styles.text, styles.headingText]}>Daily Planner</Text></View>
       <View style={styles.topMenu}>
         <Text style={[styles.text, styles.addTask]} onPress={()=>setModalVisible(true)}>Add Task</Text>
-        <Text style={[styles.text, styles.addTask]} onPress={()=>setModalVisible(true)}>View Time Chart</Text>
+        <Text style={[styles.text, styles.addTask]} onPress={()=>setChartVisible(true)}>View Time Chart</Text>
       </View>
      
       <ScrollView contentContainerStyle={styles.scrollViewBox}>
@@ -41,6 +43,7 @@ const Planner:FC<Props> =({articles}) => {
       </ScrollView>
     </View>
     <AddPlan show={modalVisible} setShow={setModalVisible}/>
+    <ChartBox show={chartVisible} setShow={setChartVisible}/>
     </>
   );
 };

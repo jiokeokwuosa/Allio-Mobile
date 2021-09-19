@@ -16,10 +16,12 @@
     "moment": "^2.29.1",
     "react": "17.0.2",
     "react-native": "0.65.1",
+    "react-native-pie": "^1.1.2",
     "react-native-svg": "^12.1.1",
     "react-redux": "^7.2.5",
     "redux": "^4.1.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "victory-native": "^35.5.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

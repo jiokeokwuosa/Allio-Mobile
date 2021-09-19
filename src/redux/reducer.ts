@@ -5,12 +5,12 @@ const initialState: ArticleState = {
         {
             title: 'Make Breakfast',
             startTime: '2021-09-19T08:43:24.198Z',
-            endTime: '2021-09-19T08:43:24.198Z',
+            endTime: '2021-09-19T09:43:24.198Z',
         },
         {
             title: 'Dress the Bed',
             startTime: '2021-09-19T08:43:24.198Z',
-            endTime: '2021-09-19T08:43:24.198Z',
+            endTime: '2021-09-19T12:43:24.198Z',
         },
     ],
 }
