@@ -27,7 +27,7 @@ const ChartBox:FC<Props> =({show,setShow, articles,chatInfo},chatData:any) => {
       prepareChartData()
      
     },[]);
-    console.log(chatInfo)
+   
     
     const prepareChartData = () =>{     
         chatData = articles?.map((article)=>{

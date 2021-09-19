@@ -51,7 +51,7 @@ const Planner:FC<Props> =({articles}) => {
       }
     })
     setChatData1((olddata:any, newone:any)=>chatData)
-    console.log(chatData)
+    
   }
   return (
     <>
