@@ -1,5 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import { Provider } from "react-redux";
+import store from "./redux/";
 import {
   StatusBar 
 } from 'react-native';
@@ -10,7 +11,9 @@ const App:FC =() => {
     StatusBar.setHidden(true);
   }, []);
   return (
-    <DailyPlan /> 
+    <Provider store={store}>
+       <DailyPlan /> 
+    </Provider>
   )
 };
 

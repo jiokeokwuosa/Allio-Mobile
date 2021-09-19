@@ -2,14 +2,19 @@ import React, {FC, useState} from 'react';
 import {
   Text,
   View,
-  StatusBar,
   StyleSheet,
   ScrollView
 } from 'react-native';
+import { connect } from "react-redux";
 import AddPlan from '../../widgets/AddPlan';
 import Box from '../../widgets/PlanBox';
 
-const Planner:FC =() => {
+interface Props{
+  articles:IArticle
+}
+
+const Planner:FC<Props> =({articles}) => {
+  console.log(articles)
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <>
@@ -65,4 +70,9 @@ const styles = StyleSheet.create({
   }  
 });
 
-export default Planner;
+const mapStateToProps = (state:any) => ({   
+  articles: state.articles 
+});
+
+export default connect(mapStateToProps, null)(Planner);
+
